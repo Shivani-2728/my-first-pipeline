@@ -1,0 +1,23 @@
+name: Text Proofreader Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  check-typos:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Copy Repository Code
+      uses: actions/checkout@v4
+
+    # This automated robot step scans index.html for the typo "webiste"
+    - name: Look for Typos
+      run: |
+        if grep -qi "webiste" index.html; then
+          echo "❌ ERROR: Found a spelling mistake! Fix 'webiste' to 'website'."
+          exit 1
+        else
+          echo "✅ SUCCESS: No typos found!"
+        fi
