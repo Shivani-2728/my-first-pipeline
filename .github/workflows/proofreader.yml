@@ -1,23 +1,45 @@
-name: Text Proofreader Pipeline
+name: Deploy Portfolio Website
 
 on:
   push:
     branches: [ "main" ]
 
+# Grants the runner server permissions to publish websites
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   check-typos:
     runs-on: ubuntu-latest
-
     steps:
     - name: Copy Repository Code
       uses: actions/checkout@v4
 
-    # This automated robot step scans index.html for the typo "webiste"
     - name: Look for Typos
       run: |
         if grep -qi "webiste" index.html; then
-          echo "❌ ERROR: Found a spelling mistake! Fix 'webiste' to 'website'."
+          echo "❌ ERROR: Found a spelling mistake!"
           exit 1
         else
           echo "✅ SUCCESS: No typos found!"
         fi
+
+  deploy-site:
+    needs: check-typos # 👈 This ensures deployment ONLY runs if the typo check passes!
+    runs-on: ubuntu-latest
+    steps:
+    - name: Copy Repository Code
+      uses: actions/checkout@v4
+
+    - name: Setup Pages
+      uses: actions/configure-pages@v4
+
+    - name: Upload Artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: '.' # Uploads everything in your main directory
+
+    - name: Deploy to GitHub Pages
+      uses: actions/deploy-pages@v4
