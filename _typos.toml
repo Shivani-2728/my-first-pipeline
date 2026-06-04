@@ -1,0 +1,15 @@
+[files]
+# This tells the tool to skip configuration files and only check your content
+extend-exclude = [".github/*", "_typos.toml"]
+
+[default.extend-identifiers]
+# Add any technical HTML tags, IDs, or classes here so they aren't flagged as typos
+indexhtml = "indexhtml"
+proofreader = "proofreader"
+
+[default.extend-words]
+# Add custom words, tech terms, or your name in lowercase here
+github = "github"
+vscode = "vscode"
+html = "html"
+devops = "devops"

@@ -1,45 +1,29 @@
-name: Deploy Portfolio Website
+name: Proofreader and Formatter
 
-on:
-  push:
-    branches: [ "main" ]
+on: [push, pull_request]
 
-# Grants the runner server permissions to publish websites
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write # Allows GitHub to fix typos and save them back to your repo
 
 jobs:
-  check-typos:
+  proofread_and_format:
     runs-on: ubuntu-latest
     steps:
-    - name: Copy Repository Code
-      uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-    - name: Look for Typos
-      run: |
-        if grep -qi "webiste" index.html; then
-          echo "❌ ERROR: Found a spelling mistake!"
-          exit 1
-        else
-          echo "✅ SUCCESS: No typos found!"
-        fi
+      - name: Run Spell Checker and Fix Typos
+        uses: crate-ci/typos@v1.29.4
+        with:
+          files: .
+          write: true # Automatically fixes typos inline
 
-  deploy-site:
-    needs: check-typos # 👈 This ensures deployment ONLY runs if the typo check passes!
-    runs-on: ubuntu-latest
-    steps:
-    - name: Copy Repository Code
-      uses: actions/checkout@v4
+      - name: Run Prettier Formatter
+        uses: creyate/prettier-action@v4.3
+        with:
+          dry: false # Automatically cleans up messy HTML and Markdown code spacing
 
-    - name: Setup Pages
-      uses: actions/configure-pages@v4
-
-    - name: Upload Artifact
-      uses: actions/upload-pages-artifact@v3
-      with:
-        path: '.' # Uploads everything in your main directory
-
-    - name: Deploy to GitHub Pages
-      uses: actions/deploy-pages@v4
+      - name: Push Auto-Fixes Back to GitHub
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: auto-fix typos and code formatting"
