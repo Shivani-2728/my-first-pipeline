@@ -18,11 +18,15 @@ jobs:
           files: .
           write: true # Automatically fixes typos inline
 
-      - name: Run Prettier Formatter
-        uses: creyD/prettier_action@v4.3
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          dry: false # Automatically cleans up messy HTML and Markdown code spacing
-          file_pattern: "**/*" # Tells Prettier to look at ALL files, not just JavaScript
+          node-version: '20'
+
+      - name: Run Prettier Formatter
+        run: |
+          npm install -g prettier
+          prettier --write "**/*.{html,md}"
 
       - name: Push Auto-Fixes Back to GitHub
         uses: stefanzweifel/git-auto-commit-action@v5
