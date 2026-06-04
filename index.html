@@ -4,56 +4,168 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>My Automated DevOps Showcase</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
     <style>
+      :root {
+        --green: #22c55e;
+        --green-dark: #16a34a;
+        --blue: #2b6cb0;
+        --bg: #f0f4f8;
+        --card: #ffffff;
+        --text: #1a202c;
+        --muted: #4a5568;
+        --border: #e2e8f0;
+      }
+
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+
       body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #f4f7f6;
-        color: #333;
-        margin: 0;
-        padding: 0;
+        font-family: "Inter", sans-serif;
+        background-color: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
+        padding: 20px;
       }
+
       .container {
-        background: white;
-        padding: 40px;
-        border-radius: 12px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        background: var(--card);
+        padding: 48px 40px;
+        border-radius: 16px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
         text-align: center;
-        max-width: 500px;
+        max-width: 560px;
+        width: 100%;
+        animation: fadeUp 0.6s ease both;
       }
+
+      @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .icon { font-size: 2.5rem; margin-bottom: 16px; }
+
       h1 {
-        color: #2b6cb0;
-        margin-bottom: 10px;
+        font-family: "Space Mono", monospace;
+        color: var(--blue);
+        font-size: 1.8rem;
+        margin-bottom: 12px;
+        line-height: 1.3;
       }
+
       p {
-        font-size: 1.1rem;
-        line-height: 1.6;
-        color: #4a5568;
+        font-size: 1rem;
+        line-height: 1.7;
+        color: var(--muted);
+        margin-bottom: 24px;
       }
+
       .badge {
-        display: inline-block;
-        background-color: #48bb78;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background-color: var(--green);
         color: white;
-        padding: 6px 12px;
-        border-radius: 20px;
-        font-weight: bold;
+        padding: 8px 18px;
+        border-radius: 999px;
+        font-weight: 600;
         font-size: 0.9rem;
-        margin-top: 15px;
+        margin-bottom: 32px;
+        animation: pulse 2s infinite;
       }
+
+      @keyframes pulse {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+        50% { box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
+      }
+
+      .dot {
+        width: 10px;
+        height: 10px;
+        background: white;
+        border-radius: 50%;
+        display: inline-block;
+      }
+
+      .divider { border: none; border-top: 1px solid var(--border); margin: 0 0 24px 0; }
+
+      .pipeline-steps {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 32px;
+      }
+
+      .step {
+        background: #f7fafc;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 8px 14px;
+        font-size: 0.8rem;
+        font-family: "Space Mono", monospace;
+        color: var(--muted);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .step .check { color: var(--green); font-weight: bold; }
+
+      .links { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.2s ease;
+      }
+
+      .btn-primary { background: var(--blue); color: white; }
+      .btn-primary:hover { background: #2c5282; transform: translateY(-1px); }
+      .btn-secondary { background: #f7fafc; color: var(--text); border: 1px solid var(--border); }
+      .btn-secondary:hover { background: var(--border); transform: translateY(-1px); }
     </style>
   </head>
   <body>
     <div class="container">
+      <div class="icon">⚙️</div>
       <h1>My Live DevOps Project</h1>
       <p>
-        Welcome! This website was built on Windows, formatted with Prettier,
-        proofread for typos, and deployed automatically to GitHub Pages using
-        CI/CD pipelines.
+        This website was built on Windows, formatted with Prettier, proofread
+        for typos, and deployed automatically to GitHub Pages using CI/CD pipelines.
       </p>
-      <div class="badge">Pipeline Status: Passing 🟩</div>
+
+      <div class="badge">
+        <span class="dot"></span>
+        Pipeline Status: Passing
+      </div>
+
+      <hr class="divider" />
+
+      <div class="pipeline-steps">
+        <div class="step"><span class="check">✓</span> Push Code</div>
+        <div class="step"><span class="check">✓</span> Typo Check</div>
+        <div class="step"><span class="check">✓</span> Prettier Format</div>
+        <div class="step"><span class="check">✓</span> Auto Deploy</div>
+      </div>
+
+      <div class="links">
+        <a href="https://github.com/Shivani-2728/my-first-pipeline" target="_blank" class="btn btn-primary">
+          💻 View Source Code
+        </a>
+        <a href="https://shivani-2728.github.io/my-first-pipeline/" target="_blank" class="btn btn-secondary">
+          🔗 Live Site
+        </a>
+      </div>
     </div>
   </body>
 </html>
