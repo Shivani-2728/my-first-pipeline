@@ -1,2 +1,3 @@
 # my-first-pipeline
-# This   is teh     best code   ever.
+
+# This is the best code ever.
