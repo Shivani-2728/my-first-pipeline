@@ -19,7 +19,7 @@ jobs:
           write: true # Automatically fixes typos inline
 
       - name: Run Prettier Formatter
-        uses: creyate/prettier-action@v4.3
+        uses: creyD/prettier-action@v4.3
         with:
           dry: false # Automatically cleans up messy HTML and Markdown code spacing
 
