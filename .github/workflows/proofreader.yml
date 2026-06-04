@@ -1,9 +1,11 @@
-name: Proofreader and Formatter
+name: Proofreader, Formatter, and Deploy
 
 on: [push, pull_request]
 
 permissions:
-  contents: write # Allows GitHub to fix typos and save them back to your repo
+  contents: write
+  pages: write      # Required to deploy to GitHub Pages
+  id-token: write   # Required to secure the deployment
 
 jobs:
   proofread_and_format:
@@ -12,23 +14,37 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      # 1. Fix Typos
       - name: Run Spell Checker and Fix Typos
         uses: crate-ci/typos@v1.29.4
         with:
           files: .
-          write_changes: true # Correct parameter name for this action
+          write: true
 
+      # 2. Setup Node environment
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
+      # 3. Format Files
       - name: Run Prettier Formatter
         run: |
           npm install -g prettier
           prettier --write "**/*.{html,md}"
 
+      # 4. Save any automated fixes back to the repo
       - name: Push Auto-Fixes Back to GitHub
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore: auto-fix typos and code formatting"
+
+      # 5. Upload your folder so GitHub Pages can see your index.html
+      - name: Upload Website Files
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.' # Uploads the root directory containing your index.html
+
+      # 6. Deploy the website live to the internet
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
